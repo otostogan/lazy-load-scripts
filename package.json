@@ -1,0 +1,21 @@
+{
+	"name": "lazy-script",
+	"version": "1.0.0",
+	"description": "Lazy load script untill first user action",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"prepublish": "rm -rf build && tsup",
+		"build": "tsup"
+	},
+	"author": "otostogan",
+	"license": "ISC",
+	"devDependencies": {
+		"tsup": "^7.2.0",
+		"typescript": "^5.2.2"
+	}
+}

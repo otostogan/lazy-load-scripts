@@ -1,0 +1,41 @@
+declare class LazyLoadScripts {
+    private triggerEvents;
+    private userEventHandler;
+    private touchStartHandler;
+    private touchMoveHandler;
+    private touchEndHandler;
+    private clickHandler;
+    private interceptedClicks;
+    private delayedScripts;
+    private allJQueries;
+    private persisted?;
+    private lastBreath;
+    private domReadyFired?;
+    constructor();
+    private _addUserInteractionListener;
+    private _removeUserInteractionListener;
+    private _onTouchStart;
+    private _onTouchMove;
+    private _onTouchEnd;
+    private _onClick;
+    private _replayClicks;
+    private _renameDOMAttribute;
+    private _triggerListener;
+    private _preconnect3rdParties;
+    private _loadEverythingNow;
+    private _registerAllDelayedScripts;
+    private _transformScript;
+    private _loadScriptsFromList;
+    private _preloadAllScripts;
+    private _batchInjectResourceHints;
+    private _delayEventListeners;
+    private _delayJQueryReady;
+    private _triggerDOMContentLoaded;
+    private _triggerWindowLoad;
+    private _handleDocumentWrite;
+    _littleBreath(): Promise<void>;
+    _requestAnimFrame(): Promise<unknown>;
+    static run(): void;
+}
+
+export { LazyLoadScripts as default };
