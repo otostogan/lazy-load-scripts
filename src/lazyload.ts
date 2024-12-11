@@ -4,7 +4,6 @@ export class LazyLoadScripts {
 	private touchStartHandler: EventListener;
 	private touchMoveHandler: EventListener;
 	private touchEndHandler: EventListener;
-	private clickHandler: EventListener;
 	private interceptedClicks: MouseEvent[];
 	private delayedScripts: {
 		normal: HTMLScriptElement[];
@@ -30,7 +29,6 @@ export class LazyLoadScripts {
 		this.touchStartHandler = this._onTouchStart.bind(this);
 		this.touchMoveHandler = this._onTouchMove.bind(this);
 		this.touchEndHandler = this._onTouchEnd.bind(this);
-		this.clickHandler = this._onClick.bind(this);
 		this.interceptedClicks = [];
 		window.addEventListener("pageshow", (e: PageTransitionEvent) => {
 			this.persisted = e.persisted;
@@ -76,7 +74,6 @@ export class LazyLoadScripts {
 				passive: true,
 			});
 			window.addEventListener("mousemove", this.touchMoveHandler);
-			e.target.addEventListener("click", this.clickHandler);
 			this._renameDOMAttribute(e.target, "onclick", "lazy-onclick");
 		}
 	};
@@ -86,7 +83,6 @@ export class LazyLoadScripts {
 		window.removeEventListener("touchmove", this.touchMoveHandler);
 		window.removeEventListener("mousemove", this.touchMoveHandler);
 		if (e.target instanceof HTMLElement) {
-			e.target.removeEventListener("click", this.clickHandler);
 			this._renameDOMAttribute(e.target, "lazy-onclick", "onclick");
 		}
 	};
@@ -96,16 +92,7 @@ export class LazyLoadScripts {
 		window.removeEventListener("touchmove", this.touchMoveHandler);
 		window.removeEventListener("mousemove", this.touchMoveHandler);
 	};
-	private _onClick: EventListener = (e: Event) => {
-		if (e.target instanceof HTMLElement) {
-			e.target.removeEventListener("click", this.clickHandler);
-			this._renameDOMAttribute(e.target, "lazy-onclick", "onclick");
-			this.interceptedClicks.push(e as MouseEvent);
-			e.preventDefault();
-			e.stopPropagation();
-			e.stopImmediatePropagation();
-		}
-	};
+
 	private _replayClicks(): void {
 		window.removeEventListener("touchstart", this.touchStartHandler);
 		window.removeEventListener("mousedown", this.touchStartHandler);
@@ -164,7 +151,7 @@ export class LazyLoadScripts {
 		this.domReadyFired = true;
 		this.lastBreath = Date.now();
 		this._delayEventListeners();
-		this._delayJQueryReady(this);
+		// this._delayJQueryReady(this);
 		this._handleDocumentWrite();
 		this._registerAllDelayedScripts();
 		this._preloadAllScripts();

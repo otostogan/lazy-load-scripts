@@ -56,7 +56,6 @@ var LazyLoadScripts = class _LazyLoadScripts {
           passive: true
         });
         window.addEventListener("mousemove", this.touchMoveHandler);
-        e.target.addEventListener("click", this.clickHandler);
         this._renameDOMAttribute(e.target, "onclick", "lazy-onclick");
       }
     };
@@ -66,7 +65,6 @@ var LazyLoadScripts = class _LazyLoadScripts {
       window.removeEventListener("touchmove", this.touchMoveHandler);
       window.removeEventListener("mousemove", this.touchMoveHandler);
       if (e.target instanceof HTMLElement) {
-        e.target.removeEventListener("click", this.clickHandler);
         this._renameDOMAttribute(e.target, "lazy-onclick", "onclick");
       }
     };
@@ -75,16 +73,6 @@ var LazyLoadScripts = class _LazyLoadScripts {
       window.removeEventListener("mouseup", this.touchEndHandler);
       window.removeEventListener("touchmove", this.touchMoveHandler);
       window.removeEventListener("mousemove", this.touchMoveHandler);
-    };
-    this._onClick = (e) => {
-      if (e.target instanceof HTMLElement) {
-        e.target.removeEventListener("click", this.clickHandler);
-        this._renameDOMAttribute(e.target, "lazy-onclick", "onclick");
-        this.interceptedClicks.push(e);
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }
     };
     this.triggerEvents = [
       "keydown",
@@ -99,7 +87,6 @@ var LazyLoadScripts = class _LazyLoadScripts {
     this.touchStartHandler = this._onTouchStart.bind(this);
     this.touchMoveHandler = this._onTouchMove.bind(this);
     this.touchEndHandler = this._onTouchEnd.bind(this);
-    this.clickHandler = this._onClick.bind(this);
     this.interceptedClicks = [];
     window.addEventListener("pageshow", (e) => {
       this.persisted = e.persisted;
@@ -185,7 +172,6 @@ var LazyLoadScripts = class _LazyLoadScripts {
       this.domReadyFired = true;
       this.lastBreath = Date.now();
       this._delayEventListeners();
-      this._delayJQueryReady(this);
       this._handleDocumentWrite();
       this._registerAllDelayedScripts();
       this._preloadAllScripts();

@@ -4,7 +4,6 @@ declare class LazyLoadScripts {
     private touchStartHandler;
     private touchMoveHandler;
     private touchEndHandler;
-    private clickHandler;
     private interceptedClicks;
     private delayedScripts;
     private allJQueries;
@@ -17,7 +16,6 @@ declare class LazyLoadScripts {
     private _onTouchStart;
     private _onTouchMove;
     private _onTouchEnd;
-    private _onClick;
     private _replayClicks;
     private _renameDOMAttribute;
     private _triggerListener;
